@@ -1,5 +1,5 @@
 export class A{
     cluck(){
-        console.log("asdasdfknöklhhhhhhsdkhgjhgfa")
+        console.log("Hello World")
     }
 }
