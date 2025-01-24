@@ -5,9 +5,8 @@ export class Scent {
     y: number;
     home: number[][] = []; // scent lead to home.
     food: number[][] = []; // scent lead to food.
-    static gridSize: number = 2000
+    static gridSize: number = 200
     static size: number
-    rectangles: number[][] = [];
 
     constructor() {
         Scent.size = Math.floor(canvas.width / Scent.gridSize)
@@ -36,29 +35,19 @@ export class Scent {
 
             for (let j = 0; j < this.y; j++) {
 
-
-    
-
+                //Drawing is very inefficient.
+                //ctx.fillStyle = `rgba(0, 0, 255, ${this.home[i][j]})`;
+                //ctx.fillRect(i / Scent.gridSize * canvas.width, j / Scent.gridSize * canvas.width, Scent.size, Scent.size);
                 
                 if (this.home[i][j] > 0) {
-                    this.home[i][j] -= 0.001
+                    this.home[i][j] -= 0.01
                 }
-             if (this.food[i][j] < 0) {
-                    this.food[i][j] -= 0.001
+                //ctx.fillStyle = `rgba(255, 0, 0, ${this.food[i][j]})`;
+                //ctx.fillRect(i / Scent.gridSize * canvas.width, j / Scent.gridSize * canvas.width, Scent.size, Scent.size);
+                if (this.food[i][j] < 0) {
+                    this.food[i][j] -= 0.01
                 }
             }
         }
     }
-
-    addRectangle(x:number, y:number, width:number) {
-        this.rectangles.push([x, y, width ]);
-      }
-
-    batchDraw() {
-        ctx.beginPath();
-        this.rectangles.forEach(rect => {
-          ctx.rect(rect[0], rect[1], rect[2], rect[2]);
-        });
-        ctx.fill();
-      }
 }

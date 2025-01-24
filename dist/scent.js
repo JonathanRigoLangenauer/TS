@@ -1,9 +1,8 @@
-import { canvas, ctx } from "./index.js";
+import { canvas } from "./index.js";
 export class Scent {
     constructor() {
         this.home = []; // scent lead to home.
         this.food = []; // scent lead to food.
-        this.rectangles = [];
         Scent.size = Math.floor(canvas.width / Scent.gridSize);
         this.x = Math.floor(canvas.width / canvas.width * Scent.gridSize);
         this.y = Math.floor(canvas.height / canvas.width * Scent.gridSize);
@@ -16,25 +15,20 @@ export class Scent {
     draw() {
         for (let i = 0; i < this.x; i++) {
             for (let j = 0; j < this.y; j++) {
+                //Drawing is very inefficient.
+                //ctx.fillStyle = `rgba(0, 0, 255, ${this.home[i][j]})`;
+                //ctx.fillRect(i / Scent.gridSize * canvas.width, j / Scent.gridSize * canvas.width, Scent.size, Scent.size);
                 if (this.home[i][j] > 0) {
-                    this.home[i][j] -= 0.001;
+                    this.home[i][j] -= 0.01;
                 }
+                //ctx.fillStyle = `rgba(255, 0, 0, ${this.food[i][j]})`;
+                //ctx.fillRect(i / Scent.gridSize * canvas.width, j / Scent.gridSize * canvas.width, Scent.size, Scent.size);
                 if (this.food[i][j] < 0) {
-                    this.food[i][j] -= 0.001;
+                    this.food[i][j] -= 0.01;
                 }
             }
         }
     }
-    addRectangle(x, y, width) {
-        this.rectangles.push([x, y, width]);
-    }
-    batchDraw() {
-        ctx.beginPath();
-        this.rectangles.forEach(rect => {
-            ctx.rect(rect[0], rect[1], rect[2], rect[2]);
-        });
-        ctx.fill();
-    }
 }
-Scent.gridSize = 2000;
+Scent.gridSize = 200;
 //# sourceMappingURL=scent.js.map
