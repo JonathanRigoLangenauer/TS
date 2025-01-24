@@ -1,11 +1,8 @@
-import { Ant } from "./ant.js";
+import { Colony } from "./colony.js";
 import { Color } from "./color.js";
-import { MyVector } from "./vector.js";
 
 
-
-
-var canvas = <HTMLCanvasElement>document.getElementById("canvas");
+export var canvas = <HTMLCanvasElement>document.getElementById("canvas");
 export var ctx = canvas.getContext("2d")!;
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -13,10 +10,8 @@ canvas.height = window.innerHeight;
 
 
 
-let ants: Ant[] = []
-for (let i = 0; i < 10000; i++) {
-    ants.push(new Ant(canvas.width / 2, canvas.height / 2, new MyVector(1), 2, 0, new Color(255, 255, 255, 1)))
-}
+
+let col = new Colony(canvas.width/2, canvas.height/2, 1000, new Color(255, 0, 0, 1))
 
 let background = new Color(0, 10, 0, 1)
 
@@ -27,12 +22,8 @@ function update() {
     ctx.fillStyle = background.toString()
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
+    col.update()
 
-    ants.forEach(item => {
-        item.draw()
-        item.step()
-        item.rotate()
-    })
 
 
     window.requestAnimationFrame(update)
