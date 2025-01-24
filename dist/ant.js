@@ -25,10 +25,10 @@ export class Ant {
         let gridX = Math.floor(this.x / canvas.width * Scent.gridSize);
         let gridY = Math.floor(this.y / canvas.width * Scent.gridSize);
         if (this.findFood == true) {
-            this.owner.scent.home[gridX][gridY] += 1;
+            this.owner.scent.home[gridX][gridY] += .01;
         }
         else if (this.goHome == true) {
-            this.owner.scent.food[gridX][gridY] += .1;
+            this.owner.scent.food[gridX][gridY] += .01;
         }
     }
     rotate() {

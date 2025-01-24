@@ -14,12 +14,12 @@ export class Ant {
     name: string = "Bob"
     color: Color;
 
-    owner: Colony; 
+    owner: Colony;
 
     goHome: boolean = false
     findFood: boolean = true
 
-    constructor(x: number, y: number, vec: MyVector, size: number, strength: number, color: Color, owner:Colony) {
+    constructor(x: number, y: number, vec: MyVector, size: number, strength: number, color: Color, owner: Colony) {
         this.x = x
         this.y = y
         this.vec = vec
@@ -43,17 +43,15 @@ export class Ant {
         this.y += this.vec.y * this.vec.speed
 
         //locate where the ant is in the grid
-        let gridX = Math.floor(this.x/canvas.width*Scent.gridSize)
-        let gridY = Math.floor(this.y/canvas.width*Scent.gridSize)
+        let gridX = Math.floor(this.x / canvas.width * Scent.gridSize)
+        let gridY = Math.floor(this.y / canvas.width * Scent.gridSize)
 
-        if(this.findFood == true){
+        if (this.findFood == true) {
 
+            this.owner.scent.home[gridX][gridY] += .01
 
-            
-            this.owner.scent.home[gridX][gridY]+=1
-
-        }else if(this.goHome == true){
-            this.owner.scent.food[gridX][gridY]+=.1
+        } else if (this.goHome == true) {
+            this.owner.scent.food[gridX][gridY] += .01
         }
     }
 
