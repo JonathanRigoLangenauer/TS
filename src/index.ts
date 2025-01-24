@@ -11,7 +11,7 @@ canvas.height = window.innerHeight;
 
 
 
-let col = new Colony(canvas.width/2, canvas.height/2, 1000, new Color(255, 0, 0, 1))
+let col = new Colony(canvas.width/2, canvas.height/2, 100, new Color(255, 0, 0, 1))
 
 let background = new Color(0, 10, 0, 1)
 
