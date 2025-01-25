@@ -5,14 +5,15 @@ export class Scent {
     y: number;
     home: number[][] = []; // scent lead to home.
     food: number[][] = []; // scent lead to food.
-    static gridSize: number = 200
+    static gridSize: number
     static size: number
 
     constructor() {
+        Scent.gridSize = canvas.width-1
         Scent.size = Math.floor(canvas.width / Scent.gridSize)
         this.x = Math.floor(canvas.width / canvas.width * Scent.gridSize)
         this.y = Math.floor(canvas.height / canvas.width * Scent.gridSize)
-        console.log(Scent.size)
+      
 
 
         // Create empty grid for home and food.
@@ -23,31 +24,53 @@ export class Scent {
             Array(this.y).fill('0')
         );
 
-        console.log(this.home, this.food)
+
 
 
     }
 
     draw() {
 
+        let id = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        let pixels = id.data;
+
+
+
+
 
         for (let i = 0; i < this.x; i++) {
 
             for (let j = 0; j < this.y; j++) {
 
-                //Drawing is very inefficient.
-                //ctx.fillStyle = `rgba(0, 0, 255, ${this.home[i][j]})`;
-                //ctx.fillRect(i / Scent.gridSize * canvas.width, j / Scent.gridSize * canvas.width, Scent.size, Scent.size);
                 
+
+
+
                 if (this.home[i][j] > 0) {
-                    this.home[i][j] -= 0.01
+                    this.home[i][j] *= 0.99
                 }
-                //ctx.fillStyle = `rgba(255, 0, 0, ${this.food[i][j]})`;
-                //ctx.fillRect(i / Scent.gridSize * canvas.width, j / Scent.gridSize * canvas.width, Scent.size, Scent.size);
-                if (this.food[i][j] < 0) {
-                    this.food[i][j] -= 0.01
+
+
+
+                if (this.food[i][j] > 0) {
+                    this.food[i][j] *= 0.99
                 }
+
+
+                if(this.home[i][j] > .1||this.food[i][j]>0.1) {
+                let off = (j * id.width + i) * 4;
+                
+                pixels[off] = 255*this.food[i][j]*10;     // Red 
+                pixels[off + 1] = 0; // Green
+                pixels[off + 2] = 255*this.home[i][j]*10; // Blue value (0-255)
+                pixels[off + 3] =255; // Alpha/opacity (0-255)
+                }
+
+
+
             }
         }
+
+        ctx.putImageData(id, 0, 0);
     }
 }

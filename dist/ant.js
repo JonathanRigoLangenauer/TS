@@ -21,14 +21,29 @@ export class Ant {
         //Movement 
         this.x += this.vec.x * this.vec.speed;
         this.y += this.vec.y * this.vec.speed;
+        // Bounce check
+        if (this.x < 0) {
+            this.x = 0;
+        }
+        if (this.x >= canvas.width - this.size) {
+            this.x = canvas.width - this.size;
+        }
+        if (this.y < 0) {
+            this.y = 0;
+        }
+        if (this.y >= canvas.height - this.size) {
+            this.y = canvas.height - this.size;
+        }
+    }
+    makeScent() {
         //locate where the ant is in the grid
         let gridX = Math.floor(this.x / canvas.width * Scent.gridSize);
         let gridY = Math.floor(this.y / canvas.width * Scent.gridSize);
         if (this.findFood == true) {
-            this.owner.scent.home[gridX][gridY] += .01;
+            this.owner.scent.home[gridX][gridY] += .1;
         }
         else if (this.goHome == true) {
-            this.owner.scent.food[gridX][gridY] += .01;
+            this.owner.scent.food[gridX][gridY] += .1;
         }
     }
     rotate() {

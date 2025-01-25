@@ -1,6 +1,7 @@
 import { Ant } from "./ant.js";
 import { Color } from "./color.js";
 import { ctx } from "./index.js";
+import { Terrain } from "./terrain.js";
 import { Scent } from "./scent.js";
 import { MyVector } from "./vector.js";
 
@@ -11,6 +12,7 @@ export class Colony {
     color:Color;
     initialAnts:number
     scent:Scent= new Scent();
+    terrain:Terrain = new Terrain();
 
     constructor(x: number, y: number, initialAnts: number, color: Color){ 
         this.x = x;
@@ -28,15 +30,20 @@ export class Colony {
     } 
 
     update(){
-
+        //
+        this.terrain.draw()
+        //
         this.scent.draw()
+
+        //Draw colony
         ctx.fillStyle = this.color.toString()
         ctx.fillRect(this.x-5, this.y-5, 10,10)
-
+        
         
         this.ants.forEach(item => {
             item.draw()
             item.step()
+            item.makeScent()
             item.rotate()
         })
 

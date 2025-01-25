@@ -10,10 +10,9 @@ canvas.height = window.innerHeight;
 
 
 
+export let col = new Colony(canvas.width/2, canvas.height/2, 100, new Color(0, 255, 0, 1))
 
-let col = new Colony(canvas.width/2, canvas.height/2, 100, new Color(255, 0, 0, 1))
-
-let background = new Color(0, 10, 0, 1)
+let background = new Color(0, 0, 0, 1)
 
 update()
 
@@ -21,6 +20,9 @@ function update() {
 
     ctx.fillStyle = background.toString()
     ctx.fillRect(0, 0, canvas.width, canvas.height)
+    
+    
+
 
     col.update()
 
