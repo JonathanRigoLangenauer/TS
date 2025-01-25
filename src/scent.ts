@@ -56,8 +56,8 @@ export class Scent {
                     this.food[i][j] *= 0.99
                 }
 
-
-                if(this.home[i][j] > .1||this.food[i][j]>0.1) {
+                
+                if(this.home[i][j] > .01||this.food[i][j]>0.01) {
                 let off = (j * id.width + i) * 4;
                 
                 pixels[off] = 255*this.food[i][j]*10;     // Red 
@@ -65,7 +65,7 @@ export class Scent {
                 pixels[off + 2] = 255*this.home[i][j]*10; // Blue value (0-255)
                 pixels[off + 3] =255; // Alpha/opacity (0-255)
                 }
-
+                
 
 
             }

@@ -1,34 +1,28 @@
 import { Ant } from "./ant.js";
 import { ctx } from "./index.js";
-import { Terrain } from "./terrain.js";
 import { Scent } from "./scent.js";
-import { MyVector } from "./vector.js";
+import { Vector } from "./vector.js";
 export class Colony {
     constructor(x, y, initialAnts, color) {
+        this.sizes = 40;
         this.scent = new Scent();
-        this.terrain = new Terrain();
         this.x = x;
         this.y = y;
         this.initialAnts = initialAnts;
         this.ants = [];
         for (let i = 0; i < initialAnts; i++) {
-            this.ants.push(new Ant(x, y, new MyVector(1), 4, 0, color, this));
+            this.ants.push(new Ant(x, y, new Vector(1, (2 * Math.random() - 1) * 2 * Math.PI), 2, 0, color, this));
         }
         this.color = color;
     }
     update() {
         //
-        this.terrain.draw();
-        //
         this.scent.draw();
         //Draw colony
         ctx.fillStyle = this.color.toString();
-        ctx.fillRect(this.x - 5, this.y - 5, 10, 10);
+        ctx.fillRect(this.x - this.sizes / 2, this.y - this.sizes / 2, this.sizes, this.sizes);
         this.ants.forEach(item => {
-            item.draw();
-            item.step();
-            item.makeScent();
-            item.rotate();
+            item.update();
         });
     }
 }

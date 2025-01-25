@@ -1,4 +1,4 @@
-import { canvas, col } from "./index.js";
+import { canvas, simu } from "./index.js";
 let isDragging = false;
 let startX, startY;
 canvas.addEventListener('mousedown', (e) => {
@@ -12,7 +12,7 @@ canvas.addEventListener('mousemove', (e) => {
     let currentX = e.offsetX;
     let currentY = e.offsetY;
     //Is badly programed for multiple colonies
-    col.terrain.addBlocks(currentX, currentY, 50);
+    simu.terrain.paint(currentX, currentY, 20);
     console.log(currentX, currentY);
 });
 canvas.addEventListener('mouseup', () => {

@@ -1,12 +1,14 @@
-export class MyVector {
+export class Vector {
     x: number
     y: number
     speed: number
-    constructor(speed:number) {
-        let angle   = (2*Math.random()-1)*2*Math.PI
+    degrees: number
+    constructor(speed:number,degrees: number ) {
+        let angle   = degrees
         this.x = Math.cos(angle)
         this.y = Math.sin(angle)
         this.speed = speed
+        this.degrees = degrees
     }
 
 

@@ -1,9 +1,10 @@
-export class MyVector {
-    constructor(speed) {
-        let angle = (2 * Math.random() - 1) * 2 * Math.PI;
+export class Vector {
+    constructor(speed, degrees) {
+        let angle = degrees;
         this.x = Math.cos(angle);
         this.y = Math.sin(angle);
         this.speed = speed;
+        this.degrees = degrees;
     }
     rotate(degrees) {
         const radians = degrees * (Math.PI / 180);

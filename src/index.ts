@@ -1,5 +1,6 @@
 import { Colony } from "./colony.js";
 import { Color } from "./color.js";
+import { Terrain } from "./terrain.js";
 
 
 export var canvas = <HTMLCanvasElement>document.getElementById("canvas");
@@ -7,10 +8,19 @@ export var ctx = canvas.getContext("2d")!;
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+export class Simulation{
+    terrain = new Terrain()
+    col = new Colony(canvas.width/2, canvas.height/2, 100, new Color(255, 255, 0, 1))
+
+    update(){
+        this.terrain.draw()
+        this.col.update()
+    }
+    
+}
 
 
-
-export let col = new Colony(canvas.width/2, canvas.height/2, 100, new Color(0, 255, 0, 1))
+export var simu = new Simulation()
 
 let background = new Color(0, 0, 0, 1)
 
@@ -24,7 +34,7 @@ function update() {
     
 
 
-    col.update()
+    simu.update()
 
 
 

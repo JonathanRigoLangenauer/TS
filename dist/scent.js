@@ -22,7 +22,7 @@ export class Scent {
                 if (this.food[i][j] > 0) {
                     this.food[i][j] *= 0.99;
                 }
-                if (this.home[i][j] > .1 || this.food[i][j] > 0.1) {
+                if (this.home[i][j] > .01 || this.food[i][j] > 0.01) {
                     let off = (j * id.width + i) * 4;
                     pixels[off] = 255 * this.food[i][j] * 10; // Red 
                     pixels[off + 1] = 0; // Green
