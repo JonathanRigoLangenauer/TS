@@ -26,7 +26,7 @@ export class Scent {
                     let off = (j * id.width + i) * 4;
                     pixels[off] = 255 * this.food[i][j] * .10; // Red 
                     pixels[off + 1] = 0; // Green
-                    pixels[off + 2] = 255 * this.home[i][j] * .10; // Blue value (0-255)
+                    pixels[off + 2] = 255 * this.home[i][j] * .510; // Blue value (0-255)
                     pixels[off + 3] = 255; // Alpha/opacity (0-255)
                 }
             }
