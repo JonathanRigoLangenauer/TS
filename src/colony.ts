@@ -5,10 +5,11 @@ import { Terrain } from "./terrain.js";
 import { Scent } from "./scent.js";
 import { Vector } from "./vector.js";
 
+
 export class Colony {
     x: number;
     y: number;
-    sizes: number= 40;
+    sizes: number= 10;
     ants: Ant[];
     color:Color;
     initialAnts:number
@@ -23,7 +24,10 @@ export class Colony {
         this.initialAnts = initialAnts;
         this.ants=[];
         for (let i = 0; i < initialAnts; i++) {
-            this.ants.push(new Ant(x, y, new Vector(1,(2*Math.random()-1)*2*Math.PI), 2, 0, color,this))
+            let deg = Math.random() * 2*Math.PI;
+            let xAnt = Math.cos(deg)*1
+            let yAnt = Math.sin(deg)*1
+            this.ants.push(new Ant(x, y, new Vector(xAnt,yAnt), 1, 0, color,this))
         }
 
        

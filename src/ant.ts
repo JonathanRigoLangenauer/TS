@@ -6,6 +6,7 @@ import { Terrain } from "./terrain.js";
 import { Vector } from "./vector.js";
 
 
+
 export class Ant {
     x: number;
     y: number;
@@ -14,6 +15,7 @@ export class Ant {
     strength: number
     name: string = "Bob"
     color: Color;
+    scentStrength = 1;
 
     owner: Colony;
 
@@ -57,64 +59,58 @@ export class Ant {
         this.bounceCheck()
     }
 
-    smell(degrees: number) {
+    smell(smellVec: Vector) {
 
 
+        
+    
 
-        let smellVec = new Vector(this.vec.speed * 3, this.vec.degrees + degrees)
+        let xx = Math.floor(smellVec.x+this.x)
+        let yy = Math.floor(smellVec.y+this.y)
 
-        let xx = Math.floor(this.x + smellVec.x)
-        let yy = Math.floor(this.y + smellVec.y)
-
-
+        let strength = 0
         if (this.TfindFoodFGoHome == false) {
-            return this.owner.scent.home[xx][yy]
+            strength= this.owner.scent.home[xx][yy]
         } else {
-            return this.owner.scent.food[xx][yy]
+            strength= this.owner.scent.food[xx][yy]
+            if(simu.terrain.grid[xx][yy]==Terrain.food){
+                strength+=1000
+            }
         }
 
+        smellVec.x*= strength
+        smellVec.y*= strength
+
+
+        return smellVec;
     }
 
     followStrongestSmell() {
 
-
-        let smelsDeg :number[] = [10, 5, 0, -5, -10]
-        let smelsVal :number[] = [0, 0, 0, 0, 0]
-        for (let i = 0; i < smelsDeg.length; i++) {
-            smelsVal[i] = this.smell(smelsDeg[i])
-        }
-
-        let maxValue = Math.max(...smelsVal);
-
-
-        //get the index of the max value
-        let index =0;
-        for(let i =0;i < smelsDeg.length; i++) {
-
-            index =i
-            if(smelsVal[i]==maxValue){
-             break;
-            }
-            
-        }
+        //Add all Vector togeter and weight them by their strength of smell.
+        let smelsDeg :number[] = [90,60,30,20, 10,5, 0,-5, -10, -20,-30,-60,-90]
         
+        let vecSum = new Vector((this.vec.x*0.0001)+(Math.random()-0.5)*0.0001,this.vec.y*0.0001+(Math.random()-0.5)*0.0001)
 
+        
+        for (let i = 0; i < smelsDeg.length; i++) {
+                let rotVec:Vector = new Vector(this.vec.x*5,this.vec.y*5)
+                rotVec.rotateDeg(smelsDeg[i])
+                vecSum.add(this.smell(rotVec))
 
+                }
 
-        if (maxValue < .001) {
+      
+    
+        let speed =   this.vec.magnitude()
+        this.vec = vecSum.normalize()
+        this.vec.scale(speed)
 
+      
 
-        } else {
-
-            this.vec.rotate(smelsDeg[index])
-
-        }
-
-
-
-
-        this.x += this.vec.x * this.vec.speed
-        this.y += this.vec.y * this.vec.speed
+ 
+        this.x += this.vec.x 
+        this.y += this.vec.y 
 
 
 
@@ -155,10 +151,11 @@ export class Ant {
 
 
         ) {
-            this.x -= this.vec.x * this.vec.speed
-            this.y -= this.vec.y * this.vec.speed
+            this.x -= this.vec.x
+            this.y -= this.vec.y 
             this.vec.x *= -1
             this.vec.y *= -1
+        
 
         }
     }
@@ -177,14 +174,17 @@ export class Ant {
 
             this.TfindFoodFGoHome = false
           
-
+            if(Math.random()<0.001){
             simu.terrain.addAir(xx, yy)
             simu.terrain.addAir(xx + this.size, yy)
             simu.terrain.addAir(xx, yy + this.size)
             simu.terrain.addAir(xx + this.size, yy + this.size)
-
+            }
             this.vec.x *= -1
             this.vec.y *= -1
+
+            this.scentStrength=1
+  
 
 
 
@@ -197,34 +197,31 @@ export class Ant {
         //locate where the ant is in the grid
         let gridX = Math.floor(this.x / canvas.width * Scent.gridSize)
         let gridY = Math.floor(this.y / canvas.width * Scent.gridSize)
+        this.scentStrength*= 0.99
 
         if (this.TfindFoodFGoHome == true) {
 
-            this.owner.scent.home[gridX][gridY] += .1
+            this.owner.scent.home[gridX][gridY] += .1*this.scentStrength
 
         } else  {
-
-            this.owner.scent.food[gridX][gridY] += .1
+            
+            this.owner.scent.food[gridX][gridY] += .1*this.scentStrength
         }
     }
 
     colonyCheck(){
-        if(Math.abs(this.x-this.owner.x)<this.owner.sizes/2 &&Math.abs(this.y-this.owner.y)<this.owner.sizes/2&& this.TfindFoodFGoHome==false ){
+        if(Math.abs(this.x-this.owner.x)<this.owner.sizes/2 &&Math.abs(this.y-this.owner.y)<this.owner.sizes/2){
        
             this.TfindFoodFGoHome = true
             this.vec.x *= -1
             this.vec.y *= -1
+            this.scentStrength=1
+   
 
         }
     }
 
-    search() {
 
-        if (Math.random() < 0.01) {
-            this.vec.rotate(Math.random() * 180 * 2 - 90)
-        }
-
-    }
 
 
 }

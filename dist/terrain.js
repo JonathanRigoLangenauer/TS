@@ -1,4 +1,4 @@
-import { canvas, ctx } from "./index.js";
+import { canvas, ctx, simu } from "./index.js";
 export class Terrain {
     constructor() {
         this.grid = []; // scent lead to home.
@@ -17,14 +17,28 @@ export class Terrain {
             this.pixels[i + 3] = 255; // Alpha/opacity (0-255)
         }
         // Create empty grid 
-        this.grid = Array.from({ length: this.x }, () => Array(this.y).fill('0'));
+        this.grid = Array.from({ length: this.x }, () => Array(this.y).fill(0));
     }
-    paint(centerX, centerY, radius) {
+    paint(centerX, centerY, radius, blockType) {
         for (let i = centerX - radius; i <= centerX + radius; i++) {
             for (let j = centerY - radius; j <= centerY + radius; j++) {
                 // Check if point is within circle using distance formula
                 if (Math.sqrt((i - centerX) ** 2 + (j - centerY) ** 2) <= radius) {
-                    this.addFood(i, j);
+                    if (blockType === 'block') {
+                        this.addBlock(i, j);
+                    }
+                    if (blockType === 'food') {
+                        this.addFood(i, j);
+                    }
+                    if (blockType === 'air') {
+                        this.addAir(i, j);
+                    }
+                    if (blockType === 'homeScent') {
+                        this.addHomeScent(i, j);
+                    }
+                    if (blockType === 'foodScent') {
+                        this.addFoodScent(i, j);
+                    }
                 }
             }
         }
@@ -52,6 +66,12 @@ export class Terrain {
         this.pixels[off + 2] = 0; // Blue value (0-255)
         this.pixels[off + 3] = 250; // Alpha/opacity (0-255)
         this.grid[i][j] = Terrain.air;
+    }
+    addHomeScent(i, j) {
+        simu.col.scent.home[i][j] = 1;
+    }
+    addFoodScent(i, j) {
+        simu.col.scent.food[i][j] = 1;
     }
     draw() {
         ctx.putImageData(this.id, 0, 0);

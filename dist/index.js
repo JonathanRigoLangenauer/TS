@@ -8,11 +8,14 @@ canvas.height = window.innerHeight;
 export class Simulation {
     constructor() {
         this.terrain = new Terrain();
-        this.col = new Colony(canvas.width / 2, canvas.height / 2, 100, new Color(255, 255, 0, 1));
+        this.col = new Colony(canvas.width / 2, canvas.height / 2, 10000, new Color(255, 255, 0, 1));
+        this.pause = false;
     }
     update() {
         this.terrain.draw();
-        this.col.update();
+        if (simu.pause == false) {
+            this.col.update();
+        }
     }
 }
 export var simu = new Simulation();

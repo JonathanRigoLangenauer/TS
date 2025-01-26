@@ -3,6 +3,7 @@ import { Color } from "./color.js";
 import { Terrain } from "./terrain.js";
 
 
+
 export var canvas = <HTMLCanvasElement>document.getElementById("canvas");
 export var ctx = canvas.getContext("2d")!;
 canvas.width = window.innerWidth;
@@ -10,11 +11,14 @@ canvas.height = window.innerHeight;
 
 export class Simulation{
     terrain = new Terrain()
-    col = new Colony(canvas.width/2, canvas.height/2, 100, new Color(255, 255, 0, 1))
+    col = new Colony(canvas.width/2, canvas.height/2, 10000, new Color(255, 255, 0, 1))
+     pause:boolean = false
 
     update(){
         this.terrain.draw()
+        if(simu.pause==false){
         this.col.update()
+    } 
     }
     
 }
@@ -34,10 +38,10 @@ function update() {
     
 
 
-    simu.update()
+    simu.update() 
 
 
-
+    
     window.requestAnimationFrame(update)
 
 }
