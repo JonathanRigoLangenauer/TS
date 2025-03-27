@@ -4,7 +4,7 @@ export class Vector {
         this.y = y;
     }
     rotateDeg(degrees) {
-        const radians = degrees * Math.PI / 180;
+        const radians = (degrees * Math.PI) / 180;
         const cos = Math.cos(radians);
         const sin = Math.sin(radians);
         let xx = this.x * cos - this.y * sin;
@@ -27,6 +27,9 @@ export class Vector {
     scale(scalar) {
         this.x *= scalar;
         this.y *= scalar;
+    }
+    radian() {
+        return Math.atan2(this.y, this.x);
     }
     magnitude() {
         return Math.sqrt(this.x * this.x + this.y * this.y);

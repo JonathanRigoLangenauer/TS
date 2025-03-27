@@ -23,7 +23,7 @@ export class Terrain {
 
         for(let i =0;i < pixels.length;i+=4) {
             this.pixels[i] = 0;     // Red 
-            this.pixels[i + 1] = 0; // Green
+            this.pixels[i + 1] = 100; // Green
             this.pixels[i + 2] = 0; // Blue value (0-255)
             this.pixels[i + 3] =255; // Alpha/opacity (0-255)
            
@@ -87,7 +87,7 @@ export class Terrain {
     addAir( i: number,  j: number,){
         let off = (j * this.id.width + i) * 4;
         this.pixels[off] =0;     // Red 
-        this.pixels[off + 1] = 0; // Green
+        this.pixels[off + 1] = 100; // Green
         this.pixels[off + 2] = 0; // Blue value (0-255)
         this.pixels[off + 3] =250; // Alpha/opacity (0-255)
         this.grid[i][j] = Terrain.air;

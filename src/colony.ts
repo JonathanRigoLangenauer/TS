@@ -9,7 +9,7 @@ import { Vector } from "./vector.js";
 export class Colony {
     x: number;
     y: number;
-    sizes: number= 10;
+    sizes: number= 30;
     ants: Ant[];
     color:Color;
     initialAnts:number
@@ -27,7 +27,7 @@ export class Colony {
             let deg = Math.random() * 2*Math.PI;
             let xAnt = Math.cos(deg)*1
             let yAnt = Math.sin(deg)*1
-            this.ants.push(new Ant(x, y, new Vector(xAnt,yAnt), 1, 0, color,this))
+            this.ants.push(new Ant(x+this.sizes, y, new Vector(xAnt,yAnt), 2, 0, color,this))
         }
 
        

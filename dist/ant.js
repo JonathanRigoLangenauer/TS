@@ -25,8 +25,18 @@ export class Ant {
         this.makeScent();
     }
     draw() {
+        ctx.save();
+        // blue rect
+        ctx.fillStyle = "#0095DD";
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.vec.radian() + Math.PI / 2);
+        // grey rect
+        ctx.fillStyle = "#4D4E53";
+        ctx.drawImage(Ant.image, -Ant.sizeX / 2, -Ant.sizeY / 2, Ant.sizeX, Ant.sizeY);
+        //ctx.fillRect(0, 0, 200, 200);
+        ctx.restore();
         ctx.fillStyle = this.color.toString();
-        ctx.fillRect(this.x, this.y, this.size, this.size);
+        //ctx.fillRect(this.x, this.y, this.size, this.size);
     }
     step() {
         this.followStrongestSmell();
@@ -51,8 +61,10 @@ export class Ant {
     }
     followStrongestSmell() {
         //Add all Vector togeter and weight them by their strength of smell.
-        let smelsDeg = [90, 60, 30, 20, 10, 5, 0, -5, -10, -20, -30, -60, -90];
-        let vecSum = new Vector((this.vec.x * 0.0001) + (Math.random() - 0.5) * 0.0001, this.vec.y * 0.0001 + (Math.random() - 0.5) * 0.0001);
+        let smelsDeg = [
+            30, 20, 10, 5, 0, -5, -10, -20, -30
+        ];
+        let vecSum = new Vector(this.vec.x * 0.0001 + (Math.random() - 0.5) * 0.00005, this.vec.y * 0.0001 + (Math.random() - 0.5) * 0.00005);
         for (let i = 0; i < smelsDeg.length; i++) {
             let rotVec = new Vector(this.vec.x * 5, this.vec.y * 5);
             rotVec.rotateDeg(smelsDeg[i]);
@@ -100,7 +112,7 @@ export class Ant {
             simu.terrain.grid[xx][yy + this.size] == Terrain.food ||
             simu.terrain.grid[xx + this.size][yy + this.size] == Terrain.food) {
             this.TfindFoodFGoHome = false;
-            if (Math.random() < 0.001) {
+            if (Math.random() < 1) {
                 simu.terrain.addAir(xx, yy);
                 simu.terrain.addAir(xx + this.size, yy);
                 simu.terrain.addAir(xx, yy + this.size);
@@ -113,18 +125,27 @@ export class Ant {
     }
     makeScent() {
         //locate where the ant is in the grid
-        let gridX = Math.floor(this.x / canvas.width * Scent.gridSize);
-        let gridY = Math.floor(this.y / canvas.width * Scent.gridSize);
+        let gridX = Math.floor((this.x / canvas.width) * Scent.gridSize);
+        let gridY = Math.floor((this.y / canvas.width) * Scent.gridSize);
         this.scentStrength *= 0.99;
         if (this.TfindFoodFGoHome == true) {
-            this.owner.scent.home[gridX][gridY] += .1 * this.scentStrength;
+            this.owner.scent.home[gridX][gridY] += 1 * this.scentStrength;
+            this.owner.scent.home[gridX + 1][gridY] += 1 * this.scentStrength;
+            this.owner.scent.home[gridX][gridY + 1] += 1 * this.scentStrength;
+            this.owner.scent.home[gridX - 1][gridY] += 1 * this.scentStrength;
+            this.owner.scent.home[gridX][gridY - 1] += 1 * this.scentStrength;
         }
         else {
-            this.owner.scent.food[gridX][gridY] += .1 * this.scentStrength;
+            this.owner.scent.food[gridX][gridY] += 1 * this.scentStrength;
+            this.owner.scent.food[gridX + 1][gridY] += 1 * this.scentStrength;
+            this.owner.scent.food[gridX][gridY - 1] += 1 * this.scentStrength;
+            this.owner.scent.food[gridX - 1][gridY] += 1 * this.scentStrength;
+            this.owner.scent.food[gridX][gridY + 1] += 1 * this.scentStrength;
         }
     }
     colonyCheck() {
-        if (Math.abs(this.x - this.owner.x) < this.owner.sizes / 2 && Math.abs(this.y - this.owner.y) < this.owner.sizes / 2) {
+        if (Math.abs(this.x - this.owner.x) < this.owner.sizes / 2 &&
+            Math.abs(this.y - this.owner.y) < this.owner.sizes / 2) {
             this.TfindFoodFGoHome = true;
             this.vec.x *= -1;
             this.vec.y *= -1;
@@ -132,4 +153,7 @@ export class Ant {
         }
     }
 }
+Ant.sizeX = 25;
+Ant.sizeY = 40;
+Ant.image = document.getElementById("ant");
 //# sourceMappingURL=ant.js.map

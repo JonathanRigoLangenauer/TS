@@ -8,7 +8,7 @@ canvas.height = window.innerHeight;
 export class Simulation {
     constructor() {
         this.terrain = new Terrain();
-        this.col = new Colony(canvas.width / 2, canvas.height / 2, 10000, new Color(255, 255, 0, 1));
+        this.col = new Colony(canvas.width / 2, canvas.height / 2, 10, new Color(255, 255, 0, 1));
         this.pause = false;
     }
     update() {
@@ -19,7 +19,7 @@ export class Simulation {
     }
 }
 export var simu = new Simulation();
-let background = new Color(0, 0, 0, 1);
+let background = new Color(255, 0, 0, 1);
 update();
 function update() {
     ctx.fillStyle = background.toString();

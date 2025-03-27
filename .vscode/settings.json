@@ -3,4 +3,5 @@
     "npm-intellisense.importQuotes": "'",
     "npm-intellisense.importLinebreak": ";\r\n",
     "npm-intellisense.importDeclarationType": "const",
+    "liveServer.settings.port": 5501,
 }

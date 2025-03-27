@@ -13,7 +13,7 @@ canvas.addEventListener('mousemove', (e) => {
     let currentX = e.offsetX;
     let currentY = e.offsetY;
     //Is badly programed for multiple colonies
-    simu.terrain.paint(currentX, currentY, 4, addBlockType);
+    simu.terrain.paint(currentX, currentY, 25, addBlockType);
     console.log(currentX, currentY);
 });
 canvas.addEventListener('mouseup', () => {

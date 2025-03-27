@@ -4,7 +4,7 @@ import { Scent } from "./scent.js";
 import { Vector } from "./vector.js";
 export class Colony {
     constructor(x, y, initialAnts, color) {
-        this.sizes = 10;
+        this.sizes = 30;
         this.scent = new Scent();
         this.x = x;
         this.y = y;
@@ -14,7 +14,7 @@ export class Colony {
             let deg = Math.random() * 2 * Math.PI;
             let xAnt = Math.cos(deg) * 1;
             let yAnt = Math.sin(deg) * 1;
-            this.ants.push(new Ant(x, y, new Vector(xAnt, yAnt), 1, 0, color, this));
+            this.ants.push(new Ant(x + this.sizes, y, new Vector(xAnt, yAnt), 2, 0, color, this));
         }
         this.color = color;
     }
